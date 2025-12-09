@@ -56,6 +56,9 @@ struct Turtle {
     float angle; /// fokban
     float turnAngle;
 
+    Color color1;
+    Color color2;
+
     VertexArray lines = VertexArray(Lines);
 
     TurtleState stack[STACK_SIZE];
@@ -95,12 +98,16 @@ void stackPop(Turtle &t)
     }
 }
 
-void initTurtle(Turtle &t, Vector2f position, float distance, float deltaDistance, float angle, float turnAngle)
+void initTurtle(Turtle &t, Vector2f position, float distance, float deltaDistance, float angle, float turnAngle, Color color1, Color color2)
 {
     t.position = position;
     t.distance = distance;
     t.deltaDistance = deltaDistance;
     t.angle = angle;
+
+    t.color1 = color1;
+    t.color2 = color2;
+
     t.turnAngle = turnAngle;
     t.stackSize = 0;
 }
@@ -115,8 +122,8 @@ void drawForward(Turtle& t)
 {
     Vector2f oldPos = t.position;
     moveForward(t);
-    t.lines.append(sf::Vertex(oldPos, Color::Red));
-    t.lines.append(sf::Vertex(t.position, Color::Black));
+    t.lines.append(sf::Vertex(oldPos, t.color1));
+    t.lines.append(sf::Vertex(t.position, t.color2));
 }
 
 void rotate180(Turtle& t)
@@ -262,44 +269,44 @@ int main()
 
     /*
     ////haz
-    initTurtle(turtle, Vector2f(50, windowHeight/2),100, 0.7, 0, 30);
+    initTurtle(turtle, Vector2f(50, windowHeight/2),100, 0.7, 0, 30, Color::Red, Color(255, 255, 0));
     stringCopy("D----D----D-D---D---D", input);
     processString(turtle, input);
     ///6 agu csillag
-    initTurtle(turtle, Vector2f(200, windowHeight/2),100,0.7, 0, 60);
+    initTurtle(turtle, Vector2f(200, windowHeight/2),100,0.7, 0, 60, Color::Red, Color(255, 255, 0));
     stringCopy("D-D++D-D++D-D++D-D++D-D++D-D", input);
     processString(turtle, input);
     ///5 agu csillag
-    initTurtle(turtle, Vector2f(50, windowHeight/2 + 200),100,0.7, 0, 144);
+    initTurtle(turtle, Vector2f(50, windowHeight/2 + 200),100,0.7, 0, 144, Color::Red, Color(255, 255, 0));
     stringCopy("D+D+D+D+D", input);
     processString(turtle, input);
     ///csiga vonal
-    initTurtle(turtle, Vector2f(250, windowHeight/2 -100),100,0.9, 0, 30);
+    initTurtle(turtle, Vector2f(250, windowHeight/2 -100),100,0.9, 0, 30, Color::Red, Color(255, 255, 0));
     stringCopy("D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D+<D", input);
     processString(turtle, input);
-    csigavonal rekurzivan
-    initTurtle(turtle, Vector2f(250, windowHeight/2 -100),100,0.9, 0, 30);
+    ///csigavonal rekurzivan
+    initTurtle(turtle, Vector2f(250, windowHeight/2 -100),100,0.9, 0, 30, Color::Red, Color(255, 255, 0));
     rules[0].what='D';
     stringCopy("D+<D", rules[0].replaceWith);
     stringCopy("D", input);
     iterate(input, rules, 1, 10);
     processString(turtle, input);
     ///Koch gorbe
-    initTurtle(turtle, Vector2f(100, windowHeight/2 -200),5,0.9, 0, 60);
+    initTurtle(turtle, Vector2f(100, windowHeight/2 -200),5,0.9, 0, 60, Color::Red, Color(255, 255, 0));
     rules[0].what='D';
     stringCopy("D-D++D-D", rules[0].replaceWith);
     stringCopy("D", input);
     iterate(input, rules, 1, 5);
     processString(turtle, input);
     ///Levy-C-gorbe
-    initTurtle(turtle, Vector2f(400, windowHeight/2 -100),5,1/1.45, 0, 45);
+    initTurtle(turtle, Vector2f(400, windowHeight/2 -100),5,1/1.45, 0, 45, Color::Red, Color(255, 255, 0));
     rules[0].what='D';
     stringCopy("+D--D+", rules[0].replaceWith);
     stringCopy("D", input);
     iterate(input, rules, 1, 10);
     processString(turtle, input);
     ///sierpinski 3szog
-    initTurtle(turtle, Vector2f(150, windowHeight/2),10,1, 0, 120);
+    initTurtle(turtle, Vector2f(150, windowHeight/2),10,1, 0, 120, Color::Red, Color(255, 255, 0));
     rules[0].what='F';
     stringCopy("F-G+F+G-F", rules[0].replaceWith);
     rules[1].what='G';
@@ -308,14 +315,14 @@ int main()
     iterate(input, rules, 2, 5);
     processString(turtle, input);
     ///koch gorbe90
-    initTurtle(turtle, Vector2f(500, windowHeight/2+100),10,1, 0, 90);
+    initTurtle(turtle, Vector2f(500, windowHeight/2+100),10,1, 0, 90, Color::Red, Color(255, 255, 0));
     rules[0].what='F';
     stringCopy("F+F-F-F+F", rules[0].replaceWith);
     stringCopy("F", input);
     iterate(input, rules, 1, 3);
     processString(turtle, input);
     ///sarkanygorbe
-    initTurtle(turtle, Vector2f(100, windowHeight/2),6,1, 0, 90);
+    initTurtle(turtle, Vector2f(100, windowHeight/2),6,1, 0, 90, Color::Red, Color(255, 255, 0));
     rules[0].what='F';
     stringCopy("F+G", rules[0].replaceWith);
     rules[1].what='G';
@@ -324,20 +331,20 @@ int main()
     iterate(input, rules, 2, 10);
     processString(turtle, input);
     ///haziko
-    initTurtle(turtle, Vector2f(250, windowHeight/2),150,1, 0, 30);
+    initTurtle(turtle, Vector2f(250, windowHeight/2),150,1, 0, 30, Color::Red, Color(255, 255, 0));
     rules[0].what='D';
     stringCopy("D---D---D---D---D---D-D----D", rules[0].replaceWith);
     stringCopy("D", input);
     iterate(input, rules, 1, 1);
     processString(turtle, input);
-    initTurtle(turtle, Vector2f(300, windowHeight/2),45,1, 0, 30);
+    initTurtle(turtle, Vector2f(300, windowHeight/2),45,1, 0, 30, Color::Red, Color(255, 255, 0));
     rules[0].what='D';
     stringCopy("---M+++D---D---D---D---D---D-D----D", rules[0].replaceWith);
     stringCopy("D", input);
     iterate(input, rules, 1, 1);
     processString(turtle, input);
     ///Gosper-gorbe
-    initTurtle(turtle, Vector2f(550, 50),10,1/sqrt(7), 0, 60);
+    initTurtle(turtle, Vector2f(550, 50),10,1/sqrt(7), 0, 60, Color::Red, Color(255, 255, 0));
     stringCopy("R", input);
     rules[0].what='R';
     stringCopy("R+L++L-R--RR-L+", rules[0].replaceWith);
@@ -346,14 +353,14 @@ int main()
     iterate(input, rules, 2, 3);
     processString(turtle, input);
     ///penta plexity
-    initTurtle(turtle, Vector2f(550, 50),10,4/(sqrt(5)+1)*(sqrt(5)+1), 0, 90);
+    initTurtle(turtle, Vector2f(550, 50),10,4/(sqrt(5)+1)*(sqrt(5)+1), 0, 90, Color::Red, Color(255, 255, 0));
     stringCopy("F++F++F++F++F", input);
     rules[0].what='F';
     stringCopy("F++F++F|F-F++F", rules[0].replaceWith);
     iterate(input, rules, 1, 3);
     processString(turtle, input);
     ///sierpinski-szonyeg
-    initTurtle(turtle, Vector2f(50, 300),3,1/3, 0, 90);
+    initTurtle(turtle, Vector2f(50, 300),3,1/3, 0, 90, Color::Red, Color(255, 255, 0));
     stringCopy("F", input);
     rules[0].what='F';
     stringCopy("F+F-F-FF-F-F-fF", rules[0].replaceWith);
@@ -362,7 +369,7 @@ int main()
     iterate(input, rules, 2, 4);
     processString(turtle, input);
     ///fractal binary tree
-    initTurtle(turtle, Vector2f(400, 500),10,0.8, -90, 30);
+    initTurtle(turtle, Vector2f(400, 500),10,0.8, -90, 30, Color::Red, Color(255, 255, 0));
     stringCopy("A", input);
     rules[0].what = 'A';
     stringCopy("B[+A]-A", rules[0].replaceWith);
@@ -372,7 +379,7 @@ int main()
     processString(turtle, input);
     */
     ///fractal plant
-    initTurtle(turtle, Vector2f(400, 550),3,1, -60, 30);
+    initTurtle(turtle, Vector2f(400, 600),5,1, -60, 30, Color::Red, Color(255, 255, 0));
     stringCopy("-X", input);
     rules[0].what = 'X';
     stringCopy("F+[[X]-X]-F[-FX]+X", rules[0].replaceWith);

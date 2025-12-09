@@ -219,7 +219,7 @@ rule rules[100];
 
 void applyRules(char *input, rule rules[], int n)
 {
-    char tmp[10000];
+    char tmp[STRING_SIZE];
     stringCopy(input, tmp);
 
     for(char *pi = tmp; *pi != 0; pi++)
@@ -408,4 +408,5 @@ int main()
     }
 
     return 0;
+
 }

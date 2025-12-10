@@ -452,10 +452,9 @@ int main()
 
         window.clear(Color::Black);
         window.draw(turtle.lines);
-        window.clear(Color::Black);
-        window.draw(turtle.lines);
         window.display();
     }
 
     return 0;
+
 }

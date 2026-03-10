@@ -5,6 +5,8 @@
 
 #define N 100
 
+using namespace std;
+
 bool visited[N];
 int fokszam[N];
 //szulo vektor
@@ -14,8 +16,6 @@ int p[N];
 //tavolsag vektor
 //minden csomopont eseten szamontartjuk, hogy milyen tavolsagra van a start csomoponttol
 int d[N];
-
-using namespace std;
 
 int beolvas(int graf[][N],char fileName[])
 {
@@ -39,6 +39,7 @@ int beolvas(int graf[][N],char fileName[])
 }
 void kiir(int graf[][N], int n)
 {
+    cout << "Szomszedsagi matrix:" << endl;
     for(int i = 0; i < n; i++)
     {
         for(int j = 0; j < n; j++)
@@ -64,7 +65,7 @@ void feltoltFokszam(int graf[][N], int n)
 }
 void kiirFokszam(int graf[][N], int n)
 {
-    cout << "fokszam" << endl;
+    cout << "Fokszam" << endl;
     for(int i = 0; i < n; i++)
     {
         cout << i << ": " << fokszam[i] << endl;
@@ -151,7 +152,6 @@ void BFS(int graf[][N], int n, int start)
     }
     cout << endl;
 }
-
 //BFS-en alapul
 //megadja minden csomopont tavolsagat a start csomoponttol
 void MooreTavolsag(int graf[][N], int n, int start)
@@ -283,6 +283,7 @@ void DFS_rekurziv(int graf[][N], int n, int start)
 }
 bool kormentesKomponens(int graf[][N], int n, int start)
 {
+    init(n);
     stack<int> verem;
     verem.push(start);
 
@@ -310,12 +311,13 @@ bool kormentesKomponens(int graf[][N], int n, int start)
 }
 bool fa(int graf[][N], int n)
 {
+    init(n);
     return osszefuggo(graf, n) && kormentesKomponens(graf, n, 0);
 }
 bool erdo(int graf[][N], int n)
 {
-    int db = 0;
     init(n);
+    int db = 0;
     for(int i = 0; i < n; i++)
     {
         if(visited[i] == false)
@@ -326,6 +328,20 @@ bool erdo(int graf[][N], int n)
         }
     }
     return true;
+}
+void szomszedsagiLista(int graf[][N], int n)
+{
+    cout << "Szomszedsagi lista:" << endl;
+    for(int i = 0; i < n; i++)
+    {
+        cout << i << ": ";
+        for(int j = 0; j < n; j++)
+        {
+            if(graf[i][j] == 1)
+                cout << j << ", ";
+        }
+        cout << endl;
+    }
 }
 int main()
 {
@@ -369,7 +385,7 @@ int main()
     cout << "Start = 3" << endl;
     kiirTavolsagok(n);
     kiirSzulok(n);
-    kiirUtvonal(5);
+    kiirUtvonal(0);
 
     init(n);
     cout << endl << "DFS rekurziv: ";
@@ -395,7 +411,7 @@ int main()
     {
         cout<<"NEM osszefuggo"<<endl;
     }
-    init(n);
+
     if(fa(graf,n))
     {
         cout<<"Fa"<<endl;
@@ -406,7 +422,7 @@ int main()
     }
     if(erdo(graf,n))
     {
-        cout<<"ERDO"<<endl;
+        cout<<"Erdo"<<endl;
     }
     else
     {

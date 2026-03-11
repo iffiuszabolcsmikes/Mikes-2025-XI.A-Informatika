@@ -343,6 +343,25 @@ void szomszedsagiLista(int graf[][N], int n)
         cout << endl;
     }
 }
+bool EulerGraf(int graf[][N], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        int b=0;
+        for(int j=0;j<n;j++)
+        {
+           if(graf[i][j]==1)
+           {
+               b++;
+           }
+        }
+        if(b%2!=0)
+        {
+           return false;
+        }
+    }
+    return true;
+}
 int main()
 {
     cout << "graf" << endl;
@@ -428,5 +447,6 @@ int main()
     {
         cout<<"NEM erdo"<<endl;
     }
+    szomszedsagiLista(graf, n);
     return 0;
 }

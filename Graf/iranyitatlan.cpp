@@ -19,7 +19,7 @@ int d[N];
 
 int beolvas(int graf[][N],char fileName[])
 {
-    int n;//csomopontok szama
+    int n = 0;//csomopontok szama
     int i, j;
     ifstream f;
     f.open(fileName);

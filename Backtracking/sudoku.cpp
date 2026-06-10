@@ -50,12 +50,16 @@ bool megoldas()
     return true;
 }
 
+
+int k = 1;
+
 void backtracking()
 {
     if(megoldas())
     {
         cout<<"megoldas"<<endl;
         kiir();
+        return;
     }
     for(int i = 0; i < 9; i++)
     {
@@ -78,15 +82,65 @@ void backtracking()
     }
 }
 
+void backtracking2(int sor = 0, int oszlop = 0)
+{
+    // Ha elértuk a 9. sort, a tabla teljesen es helyesen megtelt
+    if (sor == 9)
+    {
+        cout<<k<<". megoldas"<<endl;
+        k++;
+        //kiir();
+        return;
+    }
+
+    // Ha a sor vegere ertunk, ugras a kovetkezo sor elso oszlopara
+    if (oszlop == 9)
+    {
+        backtracking2(sor + 1, 0);
+        return;
+    }
+
+    // Ha a cella mar adott (nem 0), ugrunk a kovetkezo oszlopra
+    if (a[sor][oszlop] != 0)
+    {
+        backtracking2(sor, oszlop + 1);
+        return;
+    }
+
+    // Kiprobaljuk a szamokat 1-tal 9-ig
+    for (int szam = 1; szam <= 9; szam++)
+    {
+        a[sor][oszlop] = szam;
+        if (jo(sor, oszlop))
+        {
+            // Ha a lepes jo, megyunk tovabb. Ha True-val ter vissza, keszen vagyunk.
+            backtracking2(sor, oszlop + 1);
+        }
+    }
+
+    // Backtrack: ha egyik szam sem volt jo, visszaallítjuk 0-ra
+    a[sor][oszlop] = 0;
+}
+
 int main()
 {
     beolvas();
     kiir();
-    backtracking();
-
+    backtracking(); // A (0,0) celláról indulunk
+    //backtracking2(0, 0); // A (0,0) celláról indulunk
     return 0;
 }
-
+/* nagyon nehez
+0 6 1 0 0 7 0 0 3
+0 9 2 0 0 3 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 8 5 3 0 0 0 0
+0 0 0 0 0 0 5 0 4
+5 0 0 0 0 8 0 0 0
+0 4 0 0 0 0 0 0 1
+0 0 0 1 6 0 8 0 0
+6 0 0 0 0 0 0 0 0
+*/
 /* nehez
 8 0 0 0 0 0 0 0 0
 0 0 3 6 0 0 0 0 0
